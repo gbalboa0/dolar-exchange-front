@@ -1,0 +1,45 @@
+<h2>Historic Dolar Prices</h2>
+<div>
+  <label>Select Dolar:</label>
+  <select (change)="onSelectDolarChange($event)">
+    <option value="">--Select--</option>
+    <option *ngFor="let dolar of dolars" [value]="dolar.id">{{ dolar.name }}</option>
+</select>
+</div>
+<div class="table-container">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="compra">
+        <th mat-header-cell *matHeaderCellDef>Compra</th>
+        <td mat-cell *matCellDef="let history">{{ history.compra }}</td>
+      </ng-container>
+      <ng-container matColumnDef="venta">
+        <th mat-header-cell *matHeaderCellDef>Venta</th>
+        <td mat-cell *matCellDef="let history">{{ history.venta }}</td>
+      </ng-container>
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Date</th>
+        <td mat-cell *matCellDef="let history">{{ history.created_at | date:'HH:mm - dd/MM/yyyy' }}</td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div>
+  
+  <div class="chart-card">
+    <mat-card>
+      <mat-card-title>Historic Dolar Prices</mat-card-title>
+      <mat-card-content>
+        <div style="display: block">
+          <canvas baseChart 
+                  [datasets]="lineChartData"
+                  [labels]="lineChartLabels"
+                  [options]="lineChartOptions"
+                  [legend]="lineChartLegend"
+                  [type]="lineChartType"></canvas>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  
